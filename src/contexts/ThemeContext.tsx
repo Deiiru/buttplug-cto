@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -30,42 +30,50 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Apply theme to document and save to localStorage
+  // Apply theme to document and save to localStorage - optimized
   useEffect(() => {
     const root = window.document.documentElement;
     
-    // Remove previous theme classes
-    root.classList.remove('light', 'dark');
-    
-    // Add current theme class
-    root.classList.add(theme);
-    
-    // Save to localStorage
-    try {
-      localStorage.setItem('gm-theme', theme);
-    } catch (error) {
-      console.error('Failed to save theme to localStorage:', error);
-    }
+    // Use requestAnimationFrame to batch DOM updates
+    requestAnimationFrame(() => {
+      // Remove previous theme classes
+      root.classList.remove('light', 'dark');
+      
+      // Add current theme class
+      root.classList.add(theme);
+      
+      // Save to localStorage asynchronously
+      try {
+        localStorage.setItem('gm-theme', theme);
+      } catch (error) {
+        console.error('Failed to save theme to localStorage:', error);
+      }
+    });
   }, [theme]);
 
   const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
-  }, []);
+    if (newTheme !== theme) {
+      setThemeState(newTheme);
+    }
+  }, [theme]);
 
   const toggleTheme = useCallback(() => {
     setThemeState(prev => prev === 'light' ? 'dark' : 'light');
   }, []);
 
   const resetToLight = useCallback(() => {
-    setThemeState('light');
-  }, []);
+    if (theme !== 'light') {
+      setThemeState('light');
+    }
+  }, [theme]);
 
-  const value: ThemeContextType = {
+  // Memoize the context value to prevent unnecessary re-renders
+  const value: ThemeContextType = useMemo(() => ({
     theme,
     setTheme,
     toggleTheme,
     resetToLight,
-  };
+  }), [theme, setTheme, toggleTheme, resetToLight]);
 
   return (
     <ThemeContext.Provider value={value}>

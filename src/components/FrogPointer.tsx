@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useMemo } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-export default function FrogPointer() {
+function FrogPointer() {
   const [messageIndex, setMessageIndex] = useState(0);
   const { theme } = useTheme();
   
@@ -20,7 +20,10 @@ export default function FrogPointer() {
     "Spread GM vibes even at night! 🌌"
   ];
   
-  const messages = theme === 'dark' ? darkMessages : lightMessages;
+  const messages = useMemo(() => 
+    theme === 'dark' ? darkMessages : lightMessages, 
+    [theme]
+  );
 
   // Rotate messages every 3 seconds
   useEffect(() => {
@@ -29,8 +32,13 @@ export default function FrogPointer() {
     }, 3000);
     return () => clearInterval(interval);
   }, [messages.length]);
+  const positionClass = useMemo(() => 
+    theme === 'dark' ? '-left-56 md:-left-64' : '-left-40 md:-left-48',
+    [theme]
+  );
+
   return (
-    <div className={`absolute top-4 md:top-8 pointer-events-none z-20 ${theme === 'dark' ? '-left-56 md:-left-64' : '-left-40 md:-left-48'}`}>
+    <div className={`absolute top-4 md:top-8 pointer-events-none z-20 ${positionClass}`}>
       {/* Animated pointer arrow */}
       <motion.div
         className="relative"
@@ -88,3 +96,5 @@ export default function FrogPointer() {
     </div>
   );
 }
+
+export default memo(FrogPointer);

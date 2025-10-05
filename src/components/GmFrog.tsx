@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useThrottle } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
+import { memo, useMemo } from "react";
 
 type GmFrogProps = {
   src?: string;
@@ -9,7 +10,7 @@ type GmFrogProps = {
   size?: number;
 };
 
-export default function GmFrog({
+function GmFrog({
   src,
   alt = "GM frog mascot",
   onSmash,
@@ -23,6 +24,33 @@ export default function GmFrog({
   const throttledSmash = useThrottle(() => {
     onSmash?.();
   }, 200);
+
+  // Memoize expensive filter calculations
+  const filterStyles = useMemo(() => {
+    const baseFilters = theme === 'dark' ? `
+      drop-shadow(0 0 20px rgba(239, 68, 68, 0.6))
+      drop-shadow(0 0 40px rgba(220, 38, 38, 0.4))
+      drop-shadow(0 0 60px rgba(239, 68, 68, 0.3))
+    ` : `
+      drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))
+      drop-shadow(0 0 40px rgba(37, 99, 235, 0.4))
+      drop-shadow(0 0 60px rgba(29, 78, 216, 0.3))
+    `;
+
+    const hoverFilters = theme === 'dark' ? `
+      brightness(1.1) saturate(1.1)
+      drop-shadow(0 0 25px rgba(239, 68, 68, 0.8))
+      drop-shadow(0 0 50px rgba(220, 38, 38, 0.6))
+      drop-shadow(0 0 75px rgba(239, 68, 68, 0.4))
+    ` : `
+      brightness(1.1) saturate(1.1)
+      drop-shadow(0 0 25px rgba(59, 130, 246, 0.8))
+      drop-shadow(0 0 50px rgba(37, 99, 235, 0.6))
+      drop-shadow(0 0 75px rgba(29, 78, 216, 0.4))
+    `;
+
+    return { baseFilters, hoverFilters };
+  }, [theme]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -41,30 +69,12 @@ export default function GmFrog({
         height={size}
         className="cursor-pointer select-none no-select drop-shadow-2xl object-contain w-[180px] h-[180px] md:w-[240px] md:h-[240px] lg:w-[280px] lg:h-[280px]"
         style={{
-          filter: theme === 'dark' ? `
-            drop-shadow(0 0 20px rgba(239, 68, 68, 0.6))
-            drop-shadow(0 0 40px rgba(220, 38, 38, 0.4))
-            drop-shadow(0 0 60px rgba(239, 68, 68, 0.3))
-          ` : `
-            drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))
-            drop-shadow(0 0 40px rgba(37, 99, 235, 0.4))
-            drop-shadow(0 0 60px rgba(29, 78, 216, 0.3))
-          `
+          filter: filterStyles.baseFilters
         }}
         whileHover={{ 
           y: -6, 
           scale: 1.05,
-          filter: theme === 'dark' ? `
-            brightness(1.1) saturate(1.1)
-            drop-shadow(0 0 25px rgba(239, 68, 68, 0.8))
-            drop-shadow(0 0 50px rgba(220, 38, 38, 0.6))
-            drop-shadow(0 0 75px rgba(239, 68, 68, 0.4))
-          ` : `
-            brightness(1.1) saturate(1.1)
-            drop-shadow(0 0 25px rgba(59, 130, 246, 0.8))
-            drop-shadow(0 0 50px rgba(37, 99, 235, 0.6))
-            drop-shadow(0 0 75px rgba(29, 78, 216, 0.4))
-          `,
+          filter: filterStyles.hoverFilters,
           transition: { duration: 0.2, ease: "easeOut" }
         }}
         whileTap={{ 
@@ -93,3 +103,5 @@ export default function GmFrog({
     </div>
   );
 }
+
+export default memo(GmFrog);

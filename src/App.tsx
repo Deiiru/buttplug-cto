@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, useCallback, lazy, Suspense, memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import GmFrog from "@/components/GmFrog";
 import GMCounter from "@/components/GMCounter";
@@ -94,6 +94,24 @@ function AppContent() {
     localStorage.setItem('gm-username', newUsername);
   }, []);
 
+  // Memoize expensive filter calculations
+  const logoFilterStyles = useMemo(() => {
+    return theme === 'dark' ? `
+      drop-shadow(0 0 6px rgba(239, 68, 68, 0.5))
+      drop-shadow(0 0 12px rgba(220, 38, 38, 0.3))
+    ` : `
+      drop-shadow(0 0 6px rgba(59, 130, 246, 0.5))
+      drop-shadow(0 0 12px rgba(37, 99, 235, 0.3))
+    `;
+  }, [theme]);
+
+  const heroTitleFilterStyles = useMemo(() => {
+    return `
+      drop-shadow(0 0 10px rgba(147, 51, 234, 0.8))
+      drop-shadow(0 0 20px rgba(34, 197, 94, 0.6))
+      drop-shadow(0 0 30px rgba(147, 51, 234, 0.4))
+    `;
+  }, []);
 
   return (
     <>
@@ -163,11 +181,7 @@ function AppContent() {
             layoutRoot
           >
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-black text-white drop-shadow-2xl relative z-10 hero-title" style={{
-              filter: `
-                drop-shadow(0 0 10px rgba(147, 51, 234, 0.8))
-                drop-shadow(0 0 20px rgba(34, 197, 94, 0.6))
-                drop-shadow(0 0 30px rgba(147, 51, 234, 0.4))
-              `
+              filter: heroTitleFilterStyles
             }}>
               {theme === 'dark' ? 'Night mode active' : 'Plug Power, Buttplugs'}
             </h1>
@@ -216,13 +230,7 @@ function AppContent() {
                 alt="Buttplug CTO" 
                 className="w-8 h-8"
                 style={{
-                  filter: theme === 'dark' ? `
-                    drop-shadow(0 0 6px rgba(239, 68, 68, 0.5))
-                    drop-shadow(0 0 12px rgba(220, 38, 38, 0.3))
-                  ` : `
-                    drop-shadow(0 0 6px rgba(59, 130, 246, 0.5))
-                    drop-shadow(0 0 12px rgba(37, 99, 235, 0.3))
-                  `
+                  filter: logoFilterStyles
                 }}
               />
               <div>
