@@ -1,0 +1,778 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optimized transitions - only for specific elements to improve performance */
+.theme-transition {
+  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent layout shift during animations */
+.hero-background-light * {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+:root {
+  --background: 210 40% 98%;  /* Light blue-tinted background */
+  --foreground: 0 0% 3.9%;
+  --card: 210 25% 97%;        /* Slightly blue-tinted cards */
+  --card-foreground: 0 0% 3.9%;
+  --popover: 210 25% 97%;     /* Slightly blue-tinted popovers */
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 20% 94%;   /* Light blue secondary */
+  --secondary-foreground: 0 0% 9%;
+  --muted: 210 20% 94%;       /* Light blue muted */
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 210 20% 94%;      /* Light blue accent */
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 210 15% 87%;      /* Subtle blue border */
+  --input: 210 15% 87%;       /* Subtle blue input */
+  --ring: 0 0% 3.9%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 0 0% 8%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 8%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 20%;
+  --input: 0 0% 15%;
+  --ring: 0 0% 83.9%;
+  --chart-1: 0 70% 50%;
+  --chart-2: 0 60% 45%;
+  --chart-3: 0 80% 55%;
+  --chart-4: 0 65% 60%;
+  --chart-5: 0 75% 55%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Subtle red-hued cards for dark theme */
+.dark .bg-card {
+  background: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 15% 10%) 100%) !important;
+  border: 1px solid hsl(0 0% 20%) !important;
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1), 0 2px 4px -1px rgba(239, 68, 68, 0.05) !important;
+}
+
+.dark .bg-card\/85 {
+  background: linear-gradient(135deg, hsla(0, 0%, 8%, 0.85) 0%, hsla(0, 15%, 10%, 0.85) 100%) !important;
+  border: 1px solid hsl(0 0% 20%) !important;
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1), 0 2px 4px -1px rgba(239, 68, 68, 0.05) !important;
+}
+
+.dark .bg-secondary {
+  background: linear-gradient(135deg, hsl(0 0% 15%) 0%, hsl(0 10% 16%) 100%) !important;
+  border: 1px solid hsl(0 0% 25%) !important;
+}
+
+.dark .border-border {
+  border-color: hsl(0 0% 20%) !important;
+}
+
+/* Subtle red accent for interactive elements in dark theme */
+.dark .hover\:bg-accent:hover {
+  background: linear-gradient(135deg, hsl(0 0% 15%) 0%, hsl(0 10% 16%) 100%) !important;
+}
+
+/* Subtle red theme for all cards */
+.dark .bg-gradient-to-r {
+  background: linear-gradient(to right, hsl(0 10% 10%), hsl(0 15% 12%)) !important;
+}
+
+.dark .bg-gradient-to-br {
+  background: linear-gradient(135deg, hsl(0 10% 10%) 0%, hsl(0 15% 12%) 100%) !important;
+}
+  
+  /* Light mode: soft light blue background */
+  html:not(.dark) body {
+    background-color: #f0f4ff !important; /* Light blue background */
+  }
+  
+  /* Light mode: card backgrounds */
+  html:not(.dark) .bg-card {
+    background-color: #f8faff !important; /* Slightly lighter blue for cards */
+  }
+  
+  /* Light mode: secondary backgrounds */
+  html:not(.dark) .bg-secondary {
+    background-color: #e6f0ff !important; /* Light blue for secondary elements */
+  }
+  
+  /* Light mode: header background */
+  html:not(.dark) header,
+  html:not(.dark) .bg-background {
+    background-color: #e8f2ff !important; /* Slightly deeper blue for header */
+  }
+  
+  /* Light mode: borders */
+  html:not(.dark) .border,
+  html:not(.dark) .border-border {
+    border-color: #d1e7ff !important; /* Soft blue borders */
+  }
+  
+  /* Light mode: muted backgrounds */
+  html:not(.dark) .bg-muted {
+    background-color: #ddeeff !important; /* Muted blue background */
+  }
+  
+  /* Light mode: accent backgrounds */
+  html:not(.dark) .bg-accent {
+    background-color: #e6f0ff !important; /* Accent blue background */
+  }
+  
+  /* Light mode: footer background */
+  html:not(.dark) footer {
+    background-color: #e0ecff !important; /* Footer blue background */
+    border-color: #d1e7ff !important; /* Footer border */
+  }
+  
+  /* Light mode: header buttons (X, Telegram, Contract) */
+  html:not(.dark) header button,
+  html:not(.dark) header .btn,
+  html:not(.dark) header [role="button"] {
+    background-color: #f8faff !important; /* Same as card backgrounds */
+    border-color: #3b82f6 !important; /* Stronger blue border */
+    border-width: 2px !important;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 
+                0 0 50px rgba(59, 130, 246, 0.4),
+                0 0 75px rgba(59, 130, 246, 0.25),
+                0 0 100px rgba(59, 130, 246, 0.15),
+                0 6px 15px rgba(59, 130, 246, 0.4) !important; /* MASSIVE glow for header buttons */
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Light mode: header buttons hover state */
+  html:not(.dark) header button:hover,
+  html:not(.dark) header .btn:hover,
+  html:not(.dark) header [role="button"]:hover {
+    background-color: #e6f0ff !important; /* Slightly deeper on hover */
+    box-shadow: 0 0 35px rgba(59, 130, 246, 0.8), 
+                0 0 70px rgba(59, 130, 246, 0.6),
+                0 0 105px rgba(59, 130, 246, 0.4),
+                0 0 140px rgba(59, 130, 246, 0.25),
+                0 10px 20px rgba(59, 130, 246, 0.5) !important; /* INSANE header glow on hover */
+    transform: translateY(-2px) scale(1.02) !important; /* Lift and slight scale effect */
+    border-color: #2563eb !important; /* Even stronger blue border */
+  }
+  
+  /* Light mode: Buy Now button (keep green color) */
+  html:not(.dark) .bg-primary,
+  html:not(.dark) [class*="bg-primary"] {
+    background-color: #22c55e !important; /* Keep green color */
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.3), 
+                0 0 24px rgba(34, 197, 94, 0.15),
+                0 3px 6px rgba(34, 197, 94, 0.2) !important; /* Green glow for Buy Now */
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Light mode: Buy Now button hover */
+  html:not(.dark) .bg-primary:hover,
+  html:not(.dark) [class*="bg-primary"]:hover {
+    background-color: #16a34a !important; /* Darker green on hover */
+    box-shadow: 0 0 18px rgba(34, 197, 94, 0.4), 
+                0 0 36px rgba(34, 197, 94, 0.25),
+                0 6px 12px rgba(34, 197, 94, 0.25) !important; /* Enhanced green glow */
+    transform: translateY(-2px) !important;
+  }
+  
+  /* Light mode: Counter buttons (GM Counter & Global Counter) */
+  html:not(.dark) [class*="bg-card"],
+  html:not(.dark) .bg-card {
+    background-color: #f8faff !important;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 
+                0 0 50px rgba(59, 130, 246, 0.4),
+                0 0 75px rgba(59, 130, 246, 0.25),
+                0 0 100px rgba(59, 130, 246, 0.15),
+                0 6px 15px rgba(59, 130, 246, 0.4) !important; /* MASSIVE glow for counters */
+    border-color: #3b82f6 !important; /* Stronger blue border */
+    border-width: 2px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Light mode: Counter buttons hover (when interactive) */
+  html:not(.dark) [class*="bg-card"]:hover,
+  html:not(.dark) .bg-card:hover {
+    box-shadow: 0 0 35px rgba(59, 130, 246, 0.8), 
+                0 0 70px rgba(59, 130, 246, 0.6),
+                0 0 105px rgba(59, 130, 246, 0.4),
+                0 0 140px rgba(59, 130, 246, 0.25),
+                0 10px 20px rgba(59, 130, 246, 0.5) !important; /* INSANE counter glow on hover */
+    transform: translateY(-2px) scale(1.02) !important; /* Lift and slight scale effect */
+    border-color: #2563eb !important; /* Even stronger blue border */
+  }
+  
+  /* DARK MODE GLOW EFFECTS - MATCHING INTENSITY */
+  
+  /* Dark mode: header buttons (X, Telegram, Contract) */
+  html.dark header button,
+  html.dark header .btn,
+  html.dark header [role="button"] {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3), 
+                0 0 30px rgba(239, 68, 68, 0.2),
+                0 0 45px rgba(239, 68, 68, 0.1),
+                0 4px 8px rgba(239, 68, 68, 0.2) !important; /* Subtle red glow for dark header buttons */
+    border-color: #b91c1c !important; /* Subtle red border */
+    border-width: 1px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Dark mode: header buttons hover */
+  html.dark header button:hover,
+  html.dark header .btn:hover,
+  html.dark header [role="button"]:hover {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4), 
+                0 0 40px rgba(239, 68, 68, 0.3),
+                0 0 60px rgba(239, 68, 68, 0.2),
+                0 6px 12px rgba(239, 68, 68, 0.3) !important; /* Subtle red glow on hover */
+    transform: translateY(-1px) scale(1.01) !important;
+    border-color: #dc2626 !important; /* Slightly stronger red border */
+  }
+  
+  /* Dark mode: Counter buttons (GM Counter & Global Counter) */
+  html.dark [class*="bg-card"],
+  html.dark .bg-card {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3), 
+                0 0 30px rgba(239, 68, 68, 0.2),
+                0 0 45px rgba(239, 68, 68, 0.1),
+                0 4px 8px rgba(239, 68, 68, 0.2) !important; /* Subtle red glow for dark counters */
+    border-color: #b91c1c !important; /* Subtle red border */
+    border-width: 1px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Dark mode: Counter buttons hover */
+  html.dark [class*="bg-card"]:hover,
+  html.dark .bg-card:hover {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4), 
+                0 0 40px rgba(239, 68, 68, 0.3),
+                0 0 60px rgba(239, 68, 68, 0.2),
+                0 6px 12px rgba(239, 68, 68, 0.3) !important; /* Subtle red counter glow on hover */
+    transform: translateY(-1px) scale(1.01) !important;
+    border-color: #dc2626 !important; /* Slightly stronger red border */
+  }
+  
+  /* Dark mode: Buy Now button (keep green but add glow) */
+  html.dark .bg-primary,
+  html.dark [class*="bg-primary"] {
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.6), 
+                0 0 50px rgba(34, 197, 94, 0.4),
+                0 0 75px rgba(34, 197, 94, 0.25),
+                0 0 100px rgba(34, 197, 94, 0.15),
+                0 6px 15px rgba(34, 197, 94, 0.4) !important; /* MASSIVE green glow for dark Buy Now */
+    border-color: #22c55e !important; /* Green border */
+    border-width: 2px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Dark mode: Buy Now button hover */
+  html.dark .bg-primary:hover,
+  html.dark [class*="bg-primary"]:hover {
+    box-shadow: 0 0 35px rgba(34, 197, 94, 0.8), 
+                0 0 70px rgba(34, 197, 94, 0.6),
+                0 0 105px rgba(34, 197, 94, 0.4),
+                0 0 140px rgba(34, 197, 94, 0.25),
+                0 10px 20px rgba(34, 197, 94, 0.5) !important; /* INSANE green glow on hover */
+    transform: translateY(-2px) scale(1.02) !important;
+    border-color: #16a34a !important; /* Stronger green border */
+  }
+  
+  /* Dark mode: Secondary elements and cards */
+  html.dark .bg-secondary,
+  html.dark .bg-muted,
+  html.dark .bg-accent {
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.15), 
+                0 0 16px rgba(239, 68, 68, 0.1),
+                0 0 24px rgba(239, 68, 68, 0.05),
+                0 2px 4px rgba(239, 68, 68, 0.1) !important; /* Very subtle red glow for secondary elements */
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    transition: all 0.3s ease !important;
+  }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+/* Fixed counter buttons - NEVER SCROLL */
+.fixed-counters {
+  position: fixed !important;
+  top: 4rem !important;
+  right: 1rem !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  pointer-events: auto !important;
+  max-width: 200px !important;
+  width: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Header light mode visibility - ICONS LIGHT BLUE, TEXT BLACK */
+html:not(.dark) header a {
+  color: #60a5fa !important; /* blue-400 */
+}
+
+html:not(.dark) header a:hover {
+  color: #3b82f6 !important; /* blue-500 */
+}
+
+html:not(.dark) header a:not([class*="text-"]) {
+  color: #60a5fa !important; /* blue-400 */
+}
+
+html:not(.dark) header h1 {
+  color: black !important;
+}
+
+html:not(.dark) header h2 {
+  color: black !important;
+}
+
+html:not(.dark) header h3 {
+  color: black !important;
+}
+
+html:not(.dark) header p {
+  color: black !important;
+}
+
+html:not(.dark) header span {
+  color: black !important;
+}
+
+html:not(.dark) header div {
+  color: black !important;
+}
+
+html:not(.dark) header img {
+  filter: none !important;
+}
+
+/* Header neon glow effects */
+html:not(.dark) header svg[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 8px rgba(59, 130, 246, 0.6))
+    drop-shadow(0 0 16px rgba(37, 99, 235, 0.4))
+    drop-shadow(0 0 24px rgba(29, 78, 216, 0.3)) !important;
+}
+
+html:not(.dark) header img[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 12px rgba(59, 130, 246, 0.8))
+    drop-shadow(0 0 24px rgba(37, 99, 235, 0.6))
+    drop-shadow(0 0 36px rgba(29, 78, 216, 0.5))
+    drop-shadow(0 0 48px rgba(30, 64, 175, 0.3)) !important;
+}
+
+html.dark header svg[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 8px rgba(239, 68, 68, 0.6))
+    drop-shadow(0 0 16px rgba(220, 38, 38, 0.4))
+    drop-shadow(0 0 24px rgba(185, 28, 28, 0.3)) !important;
+}
+
+html.dark header img[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 12px rgba(239, 68, 68, 0.8))
+    drop-shadow(0 0 24px rgba(220, 38, 38, 0.6))
+    drop-shadow(0 0 36px rgba(185, 28, 28, 0.5))
+    drop-shadow(0 0 48px rgba(153, 27, 27, 0.3)) !important;
+}
+
+/* Header hover effects for images and SVGs */
+html:not(.dark) header a:hover svg[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 12px rgba(59, 130, 246, 0.8))
+    drop-shadow(0 0 24px rgba(37, 99, 235, 0.6))
+    drop-shadow(0 0 36px rgba(29, 78, 216, 0.4)) !important;
+}
+
+html:not(.dark) header a:hover img[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 16px rgba(59, 130, 246, 0.9))
+    drop-shadow(0 0 32px rgba(37, 99, 235, 0.7))
+    drop-shadow(0 0 48px rgba(29, 78, 216, 0.6))
+    drop-shadow(0 0 64px rgba(30, 64, 175, 0.4)) !important;
+}
+
+html.dark header a:hover svg[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 12px rgba(239, 68, 68, 0.8))
+    drop-shadow(0 0 24px rgba(220, 38, 38, 0.6))
+    drop-shadow(0 0 36px rgba(185, 28, 28, 0.4)) !important;
+}
+
+html.dark header a:hover img[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 16px rgba(239, 68, 68, 0.9))
+    drop-shadow(0 0 32px rgba(220, 38, 38, 0.7))
+    drop-shadow(0 0 48px rgba(185, 28, 28, 0.6))
+    drop-shadow(0 0 64px rgba(153, 27, 27, 0.4)) !important;
+}
+
+/* Clickable logo glow effects */
+html:not(.dark) .clickable-logo {
+  filter: 
+    drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))
+    drop-shadow(0 0 40px rgba(37, 99, 235, 0.4))
+    drop-shadow(0 0 60px rgba(29, 78, 216, 0.3)) !important;
+}
+
+html:not(.dark) .clickable-logo:hover {
+  filter: 
+    brightness(1.1) saturate(1.1)
+    drop-shadow(0 0 25px rgba(59, 130, 246, 0.8))
+    drop-shadow(0 0 50px rgba(37, 99, 235, 0.6))
+    drop-shadow(0 0 75px rgba(29, 78, 216, 0.4)) !important;
+}
+
+html.dark .clickable-logo {
+  filter: 
+    drop-shadow(0 0 20px rgba(239, 68, 68, 0.6))
+    drop-shadow(0 0 40px rgba(220, 38, 38, 0.4))
+    drop-shadow(0 0 60px rgba(239, 68, 68, 0.3)) !important;
+}
+
+html.dark .clickable-logo:hover {
+  filter: 
+    brightness(1.1) saturate(1.1)
+    drop-shadow(0 0 25px rgba(239, 68, 68, 0.8))
+    drop-shadow(0 0 50px rgba(220, 38, 38, 0.6))
+    drop-shadow(0 0 75px rgba(239, 68, 68, 0.4)) !important;
+}
+
+/* Hero section text glow effects */
+html:not(.dark) .hero-title {
+  filter: 
+    drop-shadow(0 0 10px rgba(59, 130, 246, 0.6))
+    drop-shadow(0 0 20px rgba(37, 99, 235, 0.4))
+    drop-shadow(0 0 30px rgba(29, 78, 216, 0.3)) !important;
+}
+
+html:not(.dark) .hero-description {
+  filter: 
+    drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))
+    drop-shadow(0 0 16px rgba(37, 99, 235, 0.3))
+    drop-shadow(0 0 24px rgba(29, 78, 216, 0.2)) !important;
+}
+
+html.dark .hero-title {
+  filter: 
+    drop-shadow(0 0 10px rgba(239, 68, 68, 0.6))
+    drop-shadow(0 0 20px rgba(220, 38, 38, 0.4))
+    drop-shadow(0 0 30px rgba(185, 28, 28, 0.3)) !important;
+}
+
+html.dark .hero-description {
+  filter: 
+    drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))
+    drop-shadow(0 0 16px rgba(220, 38, 38, 0.3))
+    drop-shadow(0 0 24px rgba(185, 28, 28, 0.2)) !important;
+}
+
+html.dark header img[style*="filter"] {
+  filter: 
+    drop-shadow(0 0 6px rgba(239, 68, 68, 0.5))
+    drop-shadow(0 0 12px rgba(220, 38, 38, 0.3)) !important;
+}
+
+/* Terminal-style elements */
+.terminal-text {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.terminal-header {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.terminal-code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.dark .terminal-code {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Prevent text selection on interactive elements */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Optimized theme transitions - removed duplicate */
+
+/* Avoid layout jumps on theme change */
+html {
+  overflow-y: scroll;
+}
+
+/* Light theme world view background */
+.light-world {
+  background: linear-gradient(to bottom, 
+    #87CEEB 0%,     /* Sky blue */
+    #87CEEB 60%,    /* Sky blue */
+    #90EE90 60%,    /* Light green horizon */
+    #228B22 100%    /* Forest green */
+  );
+}
+
+/* Dark theme night sky background */
+.dark {
+  background: linear-gradient(to bottom, 
+    #1a1a2e 0%,     /* Dark night sky */
+    #16213e 40%,    /* Darker blue */
+    #0f3460 70%,    /* Deep blue */
+    #16213e 100%    /* Dark horizon */
+  );
+}
+
+.dark::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+/* Shake animation class */
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Ensure fixed elements stay fixed */
+.fixed {
+  position: fixed !important;
+}
+
+/* Hero background for light mode only */
+.hero-background-light {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
+  height: 60vh; /* Fixed height instead of min-height to prevent layout shifts */
+  clip-path: path("M0,0 L100,0 L100,85 Q95,95 90,90 Q85,85 80,90 Q75,95 70,90 Q65,85 60,90 Q55,95 50,90 Q45,85 40,90 Q35,95 30,90 Q25,85 20,90 Q15,95 10,90 Q5,85 0,90 Z");
+  /* Fallback for browsers that don't support path() */
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions for theme changes */
+}
+
+/* Background image as pseudo-element to fill entire section */
+.hero-background-light::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: background-image 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out;
+}
+.dark .hero-background-light::after {
+  background-image: url('/background2.png');
+}
+/* Add overlay to ensure text readability */
+.hero-background-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dark .hero-background-light::before {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hero background */
+.hero-background-dark {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
+  height: 60vh; /* Fixed height instead of min-height to prevent layout shifts */
+  clip-path: path("M0,0 L100,0 L100,85 Q95,95 90,90 Q85,85 80,90 Q75,95 70,90 Q65,85 60,90 Q55,95 50,90 Q45,85 40,90 Q35,95 30,90 Q25,85 20,90 Q15,95 10,90 Q5,85 0,90 Z");
+  /* Fallback for browsers that don't support path() */
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions for theme changes */
+}
+
+/* Background image as pseudo-element to fill entire section */
+.hero-background-dark::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/background2.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: background-image 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out;
+}
+
+/* Add overlay to ensure text readability */
+.hero-background-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure content stays above background */
+.hero-background-dark > * {
+  position: relative;
+  z-index: 20;
+}
+
+/* Ensure content stays above background */
+.hero-background-light > * {
+  position: relative;
+  z-index: 20;
+}
+
+

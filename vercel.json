@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "api/*.ts": {
+      "runtime": "@vercel/node@18.x"
+    }
+  },
+  "env": {
+    "UPSTASH_REDIS_REST_URL": "@upstash_redis_rest_url",
+    "UPSTASH_REDIS_REST_TOKEN": "@upstash_redis_rest_token"
+  }
+}
+
