@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,css,md}\"",
     "start": "node server.js",
-    "server": "npm run build && npm start"
+    "server": "npm run build && npm start",
+    "prod": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -25,7 +26,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.288.0",

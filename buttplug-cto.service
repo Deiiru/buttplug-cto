@@ -1,0 +1,23 @@
+[Unit]
+Description=Buttplug CTO Node.js Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/buttplug-cto
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=UPSTASH_REDIS_REST_URL=https://useful-mako-6592.upstash.io
+Environment=UPSTASH_REDIS_REST_TOKEN=ARnAAAImcDJhMDJkYzY1MmIwMzI0MTViOTY4NzBmMDg4NzZjYmU5NnAyNjU5Mg
+
+# Logging
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=buttplug-cto
+
+[Install]
+WantedBy=multi-user.target

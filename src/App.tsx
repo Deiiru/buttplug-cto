@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, lazy, Suspense, memo, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 import { motion } from "framer-motion";
 import GmFrog from "@/components/GmFrog";
 import GMCounter from "@/components/GMCounter";

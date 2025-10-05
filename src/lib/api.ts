@@ -2,7 +2,7 @@
  * API client for backend communication
  */
 
-const API_BASE = import.meta.env.DEV ? '' : '';
+const API_BASE = '';
 
 interface ApiResponse<T> {
   data?: T;
