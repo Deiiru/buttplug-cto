@@ -2,7 +2,7 @@
  * API client for backend communication
  */
 
-const API_BASE = (import.meta as any).env?.DEV ? 'http://localhost:8787' : '';
+const API_BASE = import.meta.env.DEV ? '' : '';
 
 interface ApiResponse<T> {
   data?: T;

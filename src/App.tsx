@@ -68,18 +68,27 @@ function AppContent() {
     setGlobalClicks(newGlobalCount);
     setLastClickTime(now);
     
-    // If user has set a username, also increment on server
+    // If user has set a username, also increment on server (only works in production)
     if (username) {
       try {
-        await fetch('/api/click', {
+        const response = await fetch('/api/click', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ userId: username }),
         });
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Update global count from server if available
+          if (data.globalTotal) {
+            setGlobalClicks(data.globalTotal);
+          }
+        }
       } catch (error) {
-        console.error('Failed to register click on server:', error);
+        // Silently fail in development - this is expected
+        console.log('Server click registration failed (expected in dev mode)');
       }
     }
     

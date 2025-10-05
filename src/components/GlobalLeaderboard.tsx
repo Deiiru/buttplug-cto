@@ -36,18 +36,25 @@ export default function GlobalLeaderboard({ globalClicks }: GlobalLeaderboardPro
     setError(null);
     try {
       const response = await fetch('/api/stats');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
       const data = await response.json();
       
       if (data.leaderboard && data.leaderboard.length > 0) {
         setLeaderboard(data.leaderboard);
+        setError(null);
       } else {
-        // Use placeholder data if API returns empty or fails
+        // Use placeholder data if API returns empty
         setLeaderboard(placeholderData);
+        setError('Using sample data - No leaderboard data yet');
       }
     } catch (err) {
-      console.log('API failed, using placeholder data');
+      console.log('API failed, using placeholder data:', err);
       setLeaderboard(placeholderData);
-      setError('Using sample data - API unavailable');
+      setError('Using sample data - API will work in production');
     } finally {
       setIsLoading(false);
     }
@@ -153,7 +160,7 @@ export default function GlobalLeaderboard({ globalClicks }: GlobalLeaderboardPro
 
       <div className="mt-4 pt-3 border-t border-border text-center">
         <p className="text-xs text-muted-foreground">
-          {error ? 'Sample data shown - API will connect when deployed' : 'Set your username to join the leaderboard!'}
+          {error ? 'Sample data shown - Real leaderboard will work in production with Redis' : 'Set your username to join the leaderboard!'}
         </p>
       </div>
     </motion.div>
